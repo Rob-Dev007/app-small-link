@@ -13,7 +13,6 @@ router.post('/olvide-password', olvidePassword);
 
 router.route('/olvide-password/:token').get(comprobarToken).post(nuevoPassword);
 
-
 //Area Privada
 router.get('/perfil', CheckAuth, obtenerPerfil);
 
