@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './server/config/db.js';
 import userRoutes from './server/routes/userRoutes.js';
+import urlRoutes from './server/routes/urlRoutes.js'
 
 const app = express();
 
@@ -23,13 +24,14 @@ const corsOptions = {
             callback(new Error('No permitido por CORS'));
         }
     }
-}
+};
 
 app.use(cors(corsOptions));
+app.use('/api/user', userRoutes);
+app.use('/api/urls', urlRoutes);
+app.use('/api/public', urlRoutes);
 
 const PORT = 4000 || process.env.PORT;
-
-app.use('/api/user', userRoutes);
 
 app.listen(PORT, () =>{
     console.log(`Conección exitosa en el puerto ${PORT}`)
