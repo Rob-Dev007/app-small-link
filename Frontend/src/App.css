@@ -15,33 +15,6 @@ body, html{
     @apply bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white h-full
 }  
 
-.menu-dropdown{
-    @apply absolute w-[170px] w-24  lg:w-[200px] px-1 md:px-3 py-0 md:py-5 top-[65px] right-[8px] md:right-[20px] border-solid border-2 border-slate-500 bg-white rounded-lg text-cyan-500
-}
-
-.menu-dropdown::before{
-    @apply absolute top-[-5px] right-[20px] h-[20px] w-[20px] transform rotate-45
-}
-
-.menu-dropdown.active{
-    @apply opacity-100 visible transform translate-y-0 transition duration-500 ease-linear
-}
-
-.menu-dropdown.inactive{
-    @apply opacity-0 hidden -translate-y-20 transition duration-500 ease-linear
-}
-
-.dropdown-list{
-    @apply flex justify-center items-center
-}
-
-.dropdown-list:hover{
-    @apply text-red-500 
-}
-
-.dropdown-a{
-    @apply  flex items-center gap-x-3 ml-[3px] transition duration-500 my-1 cursor-pointer focus:text-red-500
-}
 
 .btn{
     @apply rounded-lg p-3 bg-gradient-to-b from-indigo-400 to-cyan-600 mx-5 my-8 text-white font-bold text-center text-sm lg:text-lg hover:bg-gradient-to-b hover:from-indigo-500 hover:to-cyan-700 transition-all duration-500 ease-out
@@ -84,7 +57,6 @@ body, html{
     hover:before:lg:w-full
     hover:before:opacity-100
 };
-
 
 .custom-popup {
     @apply bg-white border-gray-600 border-2 rounded-md
