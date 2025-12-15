@@ -8,7 +8,7 @@ body, html{
 
 
 .lightTheme{
-    @apply bg-gradient-to-br from-gray-50 via-blue-100 to-gray-100 text-gray-900 h-full
+    @apply bg-gradient-to-br from-gray-100 via-white to-gray-200 text-gray-900 h-full
 }
 
 .darkTheme{
