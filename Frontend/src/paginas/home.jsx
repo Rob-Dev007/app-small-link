@@ -82,19 +82,10 @@ const Home = ()=>{
                 <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center mx-4 my-8 sm:my-16">
                     App web diseñada para acortar enlaces, regístrate y podrás almacenar y administrar tus enlaces
                 </h2>
-            </div>
-            <div className="w-full flex flex-col md:flex-row justify-evenly items-center gap-4">
-                <div className="rounded-lg rounded-2xl shadow-xl hover:scale-105 transition bg-gradient-to-br from-cyan-500 via-transparent to-indigo-400 p-4 flex flex-col justify-center items-center gap-3">
-                    <FaDatabase className="text-6xl"/>
-                    <p className="text-lg font-bold">Almacena tus urls</p>
-                </div>
-                <div className="rounded-lg rounded-2xl shadow-xl hover:scale-105 transition bg-gradient-to-br from-cyan-500 via-transparent to-indigo-400 p-4 flex flex-col justify-center items-center gap-3">
-                    <FaLink className="text-6xl"/>
-                    <p className="text-lg font-bold">Personaliza tus urls</p>
-                </div>
-                <div className="rounded-lg rounded-2xl shadow-xl hover:scale-105 transition bg-gradient-to-br from-cyan-500 via-transparent to-indigo-400 p-4 flex flex-col justify-center items-center gap-3">
-                    <ImStatsBars className="text-6xl"/>
-                    <p className="text-lg font-bold">Administra tus urls</p>
+                <div className="grid md:grid-cols-3 gap-x-8 gap-y-4 my-12 mx-4">
+                    <Step title="1. Pega tu enlace" icon={FaPaste} />
+                    <Step title="2. Acórtalo" icon={FaMagic} />
+                    <Step title="3. Compártelo" icon={FaShareAlt} />
                 </div>
             </div>
             <div className="md:max-w-[440px] lg:max-w-[620px] w-full mt-5">
