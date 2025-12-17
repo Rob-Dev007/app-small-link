@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaDatabase, FaLink } from "react-icons/fa";
 import { useState } from "react";
-import { FaClipboard } from "react-icons/fa";
+import { FaClipboard, FaPaste, FaMagic, FaShareAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import UseTheme from "../hooks/UseTheme";
 import Alerta from "../helpers/Alerta"
@@ -9,6 +9,8 @@ import clienteAxios from "../config/axios";
 import Input from "../utils/input";
 import Button from "../utils/button";
 import { ImStatsBars } from "react-icons/im";
+import Step from "../utils/step";
+import CardService from "../utils/cardService";
 
 const Home = ()=>{
 
@@ -118,6 +120,23 @@ const Home = ()=>{
                 <a href="https://github.com/Rob-Dev007/AppWebUrlShortener" 
                 className="btn"
                 target="_blank">Colabora en código abierto</a>
+            </div>
+            <div className="flex flex-col md:flex-row gap-y-3 bg-gradient-to-br from-cyan-500 via-transparent to-indigo-400 w-full justify-evenly items-center my-8 py-6">
+                <CardService 
+                    title="Guarda tus enlaces"
+                    description="Crea tu cuenta y podras guardar y gestionar los enlaces, accede cuando quieras.">
+                    <FaDatabase className="text-xl md:text-6xl"/>
+                </CardService>
+                <CardService
+                    title="Personaliza tus enlaces"
+                    description="Puedes crear un alias específico a tus urls, personalizalo a tu gusto.">
+                        <FaLink className="text-xl md:text-6xl"/>
+                </CardService>
+                <CardService
+                    title="Gestiona tus enlaces"
+                    description="Edita o elimina tus enlaces, contabiliza las veces visitadas a la url.">
+                        <ImStatsBars className="text-xl md:text-6xl"/>
+                </CardService>
             </div>
 
         </div>
