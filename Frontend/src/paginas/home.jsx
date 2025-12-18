@@ -17,8 +17,11 @@ const Home = ()=>{
     const [ urlDestino, setUrlDestino ] = useState('');
     const [ shortUrl, setShortUrl ] = useState('');
     const [ alerta, setAlerta ] = useState({});
+    const [ loading, setLoading ] = useState(false);
 
     const { theme } = UseTheme();
+
+    const MIN_LOADING_TIME = 400; //Tiempo de espera para mostrar la respuesta del backend
 
     const handleSubmit = async e=>{
         e.preventDefault();
@@ -32,15 +35,26 @@ const Home = ()=>{
         }
 
         setAlerta({});
+        setLoading(true);
+        
+        const startTime = Date.now();
 
         try {
             const { data } = await clienteAxios.post('/shorten', { urlDestino } );
-            setShortUrl(data.shortUrl);
+                setShortUrl(data.shortUrl);
         } catch (error) {
             setAlerta({
                 msg: data.error.msg,
                 error: true
             })
+        }
+        finally {
+            const elapsed = Date.now() - startTime;
+            const remaining = Math.max(0, MIN_LOADING_TIME - elapsed); //Operación para obtener tiempo de espera de respuesta del backend
+
+            setTimeout(()=>{
+                setLoading(false);
+            }, remaining)
         }
     };
 
@@ -94,7 +108,17 @@ const Home = ()=>{
                 <form onSubmit={ handleSubmit }>
                     <Input type={ "url" } value={ urlDestino } changeEvent={ changeEvent } placeholder={ "Recorta la url" }/>
                     <div className="flex justify-end mt-3 md:mt-2 mx-2 gap-8">
-                        <Button type={ "submit" } className="flex items-center justify-center bg-cyan-600 md:p-4 p-3 text-white rounded-lg font-bold text-sm lg:text-lg hover:bg-cyan-500 transform duration-500 ease-out cursor-pointer backdrop-blur-md rounded-2xl shadow-lg">Recorta el url</Button>
+                        <Button 
+                        disabled={loading} 
+                        type={ "submit" } 
+                        className={`${loading ? 'opacity-50 cursor-not-allowed' : 'opacity-100' } flex items-center justify-center bg-cyan-600 md:p-4 p-3 text-white rounded-lg font-bold text-sm lg:text-lg hover:bg-cyan-500 transform duration-500 ease-out cursor-pointer backdrop-blur-md rounded-2xl shadow-lg`}>{loading ? (
+                            <>
+                                <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" ></span>
+                                Procesando...
+                            </>
+
+                        )  :  ( 'Recorta el url') }
+                        </Button>
                     </div>
                 </form>
                 <div className="flex justify-center mt-4">
@@ -102,8 +126,14 @@ const Home = ()=>{
                         alerta={ alerta }
                     />}
                 </div>
-                
-                {shortUrl && (
+               {loading && (
+                    <div className="flex flex-col lg:flex-row w-full justify-center items-center gap-3 mt-4 md:mt-3 animate-pulse">
+                        <div className="h-4 w-24 bg-gray-400/50 rounded" />
+                        <div className="h-4 w-56 bg-gray-400/50 rounded" />
+                        <div className="h-8 w-8 bg-gray-400/50 rounded-md" />
+                    </div>
+                )}
+                {!loading && shortUrl && (
                 <div className="flex flex-col lg:flex-row w-full justify-center gap-3 mt-4 md:mt-3 items-center">
                     <p className="text-sm lg:text-base">URL acortada:</p>
                         <a href={ shortUrl } target="_blank" rel="noopener noreferrer" className="max-w-[260px] sm:max-w-sm truncate font-semibold text-blue-600"><strong>{ shortUrl }</strong></a>
