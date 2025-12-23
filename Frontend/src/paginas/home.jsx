@@ -11,6 +11,8 @@ import Button from "../utils/button";
 import { ImStatsBars } from "react-icons/im";
 import Step from "../utils/step";
 import CardService from "../utils/cardService";
+import Stats from "../components/stats";
+import ReviewsSlider from "../components/reviews";
 
 const Home = ()=>{
 
@@ -96,6 +98,13 @@ const Home = ()=>{
                 <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center mx-4 my-8 sm:my-16">
                     App web diseñada para acortar enlaces, regístrate y podrás almacenar y administrar tus enlaces
                 </h2>
+                <div className="grid grid-cols-2 lg:grid-rows-1 lg:grid-cols-4 justify-items-center gap-6 mt-10 text-lg lg:text-xl text-gray-400 w-full">
+                    <span>🔒 Sin spam</span>
+                    <span>⚡ Rápido</span>
+                    <span>🌍 Open source</span>
+                    <span>📊 Estadísticas</span>
+                </div>
+
                 <div className="grid md:grid-cols-3 gap-x-8 gap-y-4 my-12 mx-4">
                     <Step title="1. Pega tu enlace" icon={FaPaste} />
                     <Step title="2. Acórtalo" icon={FaMagic} />
@@ -167,6 +176,25 @@ const Home = ()=>{
                         <ImStatsBars className="text-xl md:text-6xl"/>
                 </CardService>
             </div>
+            <Stats />
+            <div className="overflow-hidden w-full">
+                 <div className="lg:max-w-6xl  mx-auto">
+                <ReviewsSlider />
+            </div>
+            </div>
+           
+            <div className="text-center my-8">
+                <h3 className="text-2xl text-cyan-500 font-bold mb-4">
+                    Empieza gratis hoy mismo
+                </h3>
+                <p className="text-gray-500 mb-6">
+                    Regístrate y gestiona todos tus enlaces desde un solo lugar
+                </p>
+                <Link to="/registrar" className="btn">
+                    Crear cuenta gratis
+                </Link>
+            </div>
+
 
         </div>
     )
