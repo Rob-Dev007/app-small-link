@@ -19,8 +19,6 @@ const Home = ()=>{
     const [ alerta, setAlerta ] = useState({});
     const [ loading, setLoading ] = useState(false);
 
-    const { theme } = UseTheme();
-
     const MIN_LOADING_TIME = 400; //Tiempo de espera para mostrar la respuesta del backend
 
     const handleSubmit = async e=>{
@@ -151,7 +149,8 @@ const Home = ()=>{
                 className="btn"
                 target="_blank">Colabora en código abierto</a>
             </div>
-            <div className="flex flex-col md:flex-row gap-y-3 bg-gradient-to-br from-cyan-500 via-transparent to-indigo-400 w-full justify-evenly items-center my-8 py-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 bg-gradient-to-br from-cyan-500 via-transparent to-indigo-400 w-full my-8 py-6 p-3 
+            justify-items-center">
                 <CardService 
                     title="Guarda tus enlaces"
                     description="Crea tu cuenta y podras guardar y gestionar los enlaces, accede cuando quieras.">
