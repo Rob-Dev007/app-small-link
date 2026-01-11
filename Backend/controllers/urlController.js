@@ -1,16 +1,28 @@
+import checkUrl from "../helpers/checkUrl.js";
 import Url from "../server/models/Url.js";
-import shortid from "shortid";
 import mongoose from "mongoose";
 
 const agregarUrl = async(req, res)=>{
 
-    const { urlDestino, customUrl } = req.body;
+    const { urlDestino, customUrl, descripcion } = req.body;
+
+    if(!urlDestino || !checkUrl(urlDestino)){
+        return res.status(400).json({mas: 'Url es incorrecta'});
+    }
+
+    if(customUrl){
+        const alias = await Url.findOne({ customUrl });
+
+        if(alias){
+            return res.status(400).json({msg: 'Alias en uso, intente nuevamente'});
+        }
+    }
 
     const url = await Url.findOne({ urlDestino, customUrl, userId: req.user._id });
 
     if(url){
         const error = new Error('Url ya existe');
-        return res.status(404).json({ msg: error.message });
+        return res.status(409).json({ msg: error.message });
     }
 
     try {
