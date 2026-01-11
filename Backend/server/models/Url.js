@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import shortid from "shortid";
+import { nanoid } from "nanoid";
 
 const UrlSchema = mongoose.Schema({
     urlDestino: { 
@@ -10,6 +10,7 @@ const UrlSchema = mongoose.Schema({
     customUrl: {
         type: String,
         unique: true, 
+        sparse: true,
         trim: true,
     },
     descripcion: String,
@@ -20,18 +21,31 @@ const UrlSchema = mongoose.Schema({
     userId: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User', 
-        required: true 
+        default: null
     },
     shortUrlId:{
         type: String,
-        default: shortid.generate,
+        default: ()=> nanoid(8),
         unique:true
+    },
+    isPublic:{
+        type: Boolean,
+        default: false
+    },
+    expiresAt:{
+        type: Date,
+        default: null
     }
 },
 {
     timestamps: true
 }
 );
+
+UrlSchema.index(
+    { expiresAt: 1 },
+    { expireAfterSeconds: 0 }
+)
 
 const Url = mongoose.model('Url', UrlSchema);
 
