@@ -109,8 +109,7 @@ const eliminarUrl = async(req, res)=>{
     }
 
     try {
-        const url = await Url.findByIdAndDelete(id);
-        await url.deleteOne();
+        const url = await Url.findById(id);
 
         if(!url){
             const error = new Error('No encontrado');
@@ -120,6 +119,8 @@ const eliminarUrl = async(req, res)=>{
         if(url.userId._id.toString() !== req.user._id.toString()){
             return res.json({msg: 'Acción no permitida'});
         };
+
+        await url.deleteOne();
 
         res.json({ msg: 'Url eliminado correctamente' });
     } catch (error) {
