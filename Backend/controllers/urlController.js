@@ -135,7 +135,6 @@ const pagination = async (req, res) => {
 
   const safePage = Number(page) > 0 ? Number(page) : 1;
   const safeLimit = Number(limit) > 0 && Number(limit) <= 50 ? Number(limit) : 8;
-  const skip = (safePage - 1) * safeLimit;
 
   //Filtro: usuario logueado + customUrl 
 
@@ -149,8 +148,9 @@ const pagination = async (req, res) => {
         ]
     }
     const total = await Url.countDocuments(filter);
-
-    console.log(total);
+    const totalPages = Math.ceil(total / safeLimit);
+    const currentPage = Math.min(safePage, totalPages || 1);
+    const skip = (currentPage - 1) * safeLimit;
 
     const urls = await Url.find(filter)
       .skip(skip)
@@ -161,10 +161,10 @@ const pagination = async (req, res) => {
     res.json({
       urls,
       total,
-      totalPages: Math.ceil(total / safeLimit),
-      currentPage: safePage,
-      hasPrevPage: safePage > 1,
-      hasNextPage: safePage < Math.ceil(total / safeLimit),
+      totalPages,
+      currentPage,
+      hasPrevPage: currentPage > 1,
+      hasNextPage: currentPage < totalPages,
       pageSize: safeLimit,
     });
   } catch (error) {
