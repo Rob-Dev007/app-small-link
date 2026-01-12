@@ -44,12 +44,15 @@ const agregarUrl = async(req, res)=>{
         console.log(error);
         res.status(500).json({msg: 'Error al crear la url'});
     }
-
 };
 
 const obtenerUrl = async (req, res)=>{
     const { id } = req.params;
-    
+
+     if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ msg: 'ID no válido' });
+    }
+
     const url = await Url.findById( id );
 
     if(!url){
@@ -58,7 +61,7 @@ const obtenerUrl = async (req, res)=>{
     }
 
     if(url.userId._id.toString() !== req.user._id.toString()){
-        return res.json({msg: 'Acción no permitida'});
+        return res.status(403).json({msg: 'Acción no permitida'});
     };
 
     res.json(url);
