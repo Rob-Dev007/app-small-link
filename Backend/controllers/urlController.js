@@ -26,17 +26,23 @@ const agregarUrl = async(req, res)=>{
     }
 
     try {
-        const shortUrlId = customUrl || shortid.generate(); // Genera un alias único si no se proporciona uno
+
         const newUrl = new Url({
-            ...req.body,
+            urlDestino,
             userId : req.user._id,
-            customUrl:  shortUrlId
+            isPublic: false,
+            descripcion 
         });
+
+        if(customUrl && customUrl.trim() !== ''){
+            newUrl.customUrl = customUrl.trim();
+        }
 
         const urlGuardado = await newUrl.save();
         res.json(urlGuardado);
     } catch (error) {
         console.log(error);
+        res.status(500).json({msg: 'Error al crear la url'});
     }
 
 };
