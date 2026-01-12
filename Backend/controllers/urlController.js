@@ -92,7 +92,6 @@ const actualizarUrl = async(req, res)=>{
         url.urlDestino = req.body.urlDestino || url.urlDestino;
         url.customUrl = req.body.customUrl || url.customUrl;
         url.descripcion = req.body.descripcion || url.descripcion;
-        url.createdAt = req.body.createdAt || url.createdAt;
 
         const urlActualizado = await url.save();
         return res.json(urlActualizado); 
