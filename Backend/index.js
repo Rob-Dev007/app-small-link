@@ -5,6 +5,7 @@ import connectDB from './server/config/db.js';
 import userRoutes from './server/routes/userRoutes.js';
 import urlRoutes from './server/routes/urlRoutes.js';
 import publicRoutes from './server/routes/publicRoutes.js';
+import { redirect } from './controllers/urlController.js';
 
 const app = express();
 
@@ -34,7 +35,9 @@ app.use('/api/user', userRoutes);
 app.use('/api/urls', urlRoutes);
 
 //Rutas públicas para las url generadas sin login
-app.use('/api', publicRoutes);
+app.use('/api/public', publicRoutes);
+
+app.get('/:shortUrlId', redirect);   
 
 const PORT = process.env.PORT || 4000;
 
