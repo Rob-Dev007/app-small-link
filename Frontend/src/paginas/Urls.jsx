@@ -2,45 +2,21 @@ import  { FaTrashAlt, FaCog, FaClipboard } from 'react-icons/fa';
 import  { HiBarsArrowUp } from 'react-icons/hi2';
 import useUrl from '../hooks/useUrl';
 import Swal from 'sweetalert2';
-import clienteAxios from '../config/axios';
-import { useState } from 'react';
 
 const Urls = ({ url, mostrarFormEditar })=>{
 
-    const { urlDestino, customUrl, descripcion, clicks: initialClicks, createdAt } = url;
+    const { urlDestino, shortUrlId, customUrl, descripcion, clicks, createdAt } = url;
     const { eliminarUrl } = useUrl();
-
-    const [ clicks, setClicks ] = useState(initialClicks);
     
-
     const fechaFormateada = new Date(createdAt).toLocaleDateString('es-ES', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
     });
 
-    
-    const handleLinkClick = async (e) => {
-        e.preventDefault();
-        try {
-            const token = localStorage.getItem('token');
-            const config = {
-                headers : {
-                    "Content-Type" : "application/json",
-                    Authorization : `Bearer ${token}`
-                }
-            }
-            // Llama a la API para incrementar los clics
-            const { data }  = await clienteAxios.get(`/urls/clicks/${ customUrl }`, config);
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-            window.open(data.urlDestino, "_blank");
-            
-            //Actualizar el estado con el nuevo numero de clicks;
-            setClicks(data.clicks);
-        } catch (error) {
-            console.error('Error al incrementar los clicks:', error);
-        }
-    };
+    const redirectUrl = `${BACKEND_URL}/${customUrl || shortUrlId}`;
 
     const showAlert = ()=>{
          Swal.fire({
@@ -57,7 +33,8 @@ const Urls = ({ url, mostrarFormEditar })=>{
     }
 
     const handleCopy = ()=>{
-        navigator.clipboard.writeText(urlDestino)
+        navigator.clipboard
+        .writeText(redirectUrl)
         .then(()=> showAlert())
         .catch((error) => console.log('Error al copiar el enlace', error))
     }
@@ -91,8 +68,8 @@ const Urls = ({ url, mostrarFormEditar })=>{
     return(
         <div className='p-4 border-2 rounded-lg shadown-lg my-2'>
             <div className='flex justify-between flex-col md:flex-row'>
-                <a className='text-blue-400 font-bold max-w-44 lg:max-w-none' href="#" target='_blank' onClick={ handleLinkClick } >
-                    { customUrl }
+                <a className='text-blue-400 font-bold max-w-44 lg:max-w-none' href={redirectUrl} target='_blank' >
+                    { customUrl || shortUrlId }
                 </a>
                 <div className='flex justify-end md:justify-between items-center gap-1'>
                     <div className='flex items-center gap-1'>
