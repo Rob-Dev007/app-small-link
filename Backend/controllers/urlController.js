@@ -174,6 +174,33 @@ const pagination = async (req, res) => {
   }
 };
 
+const createPublicUrl = async (req, res)=>{
+
+    const { urlDestino } = req.body;
+
+    if(!urlDestino || !checkUrl(urlDestino)){
+        return res.status(400).json({ msg: 'Url es incorrecta' })
+    }
+
+    try{
+        const url = new Url({
+            urlDestino,
+            isPublic: true,
+            userId: null,
+            expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000)
+        });
+
+        await url.save();
+
+        res.status(201).json({
+            shortUrl: url.shortUrlId
+        })
+
+    }catch(error){
+        console.log(error);
+        res.status(500).json({msg: 'Error al crear url'});
+    }
+}
 
 export {
     agregarUrl,
