@@ -1,11 +1,10 @@
 import express from "express";
-import { shortenUrlPublic, redirectPublic } from "../../controllers/urlController.js";
+import { createPublicUrl } from "../../controllers/urlController.js";
 
 const router = express.Router();
 
 // Ruta pública para usuarios no autenticados
-router.post('/shorten', shortenUrlPublic);
+router.post('/shorten', createPublicUrl);
 //Redirreción url pública
-router.get('/:shortUrlId', redirectPublic);
 
 export default router;
