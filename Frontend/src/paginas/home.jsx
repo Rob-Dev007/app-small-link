@@ -3,7 +3,6 @@ import { FaDatabase, FaLink } from "react-icons/fa";
 import { useState } from "react";
 import { FaClipboard, FaPaste, FaMagic, FaShareAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
-import UseTheme from "../hooks/UseTheme";
 import Alerta from "../helpers/Alerta"
 import clienteAxios from "../config/axios";
 import Input from "../utils/input";
@@ -13,6 +12,7 @@ import Step from "../utils/step";
 import CardService from "../utils/cardService";
 import Stats from "../components/stats";
 import ReviewsSlider from "../components/reviews";
+import checkUrl from "../helpers/checkUrl";
 
 const Home = ()=>{
 
@@ -34,17 +34,24 @@ const Home = ()=>{
             return;
         }
 
+        if(!checkUrl(urlDestino)){
+            setAlerta({
+                msg: data.msg,
+                error: true
+                })
+            }
+
         setAlerta({});
         setLoading(true);
         
         const startTime = Date.now();
 
         try {
-            const { data } = await clienteAxios.post('/shorten', { urlDestino } );
+            const { data } = await clienteAxios.post('/public/shorten', { urlDestino } );
                 setShortUrl(data.shortUrl);
         } catch (error) {
             setAlerta({
-                msg: data.error.msg,
+                msg: error.response?.data?.msg,
                 error: true
             })
         }
@@ -57,6 +64,10 @@ const Home = ()=>{
             }, remaining)
         }
     };
+
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+    const redirectUrl = `${BACKEND_URL}/${shortUrl}`;
 
     const showAlerta = ()=>{
         Swal.fire({
@@ -143,7 +154,7 @@ const Home = ()=>{
                 {!loading && shortUrl && (
                 <div className="flex flex-col lg:flex-row w-full justify-center gap-3 mt-4 md:mt-3 items-center">
                     <p className="text-sm lg:text-base">URL acortada:</p>
-                        <a href={ shortUrl } target="_blank" rel="noopener noreferrer" className="max-w-[260px] sm:max-w-sm truncate font-semibold text-blue-600"><strong>{ shortUrl }</strong></a>
+                        <a href={ redirectUrl } target="_blank" rel="noopener noreferrer" className="max-w-[260px] sm:max-w-sm truncate font-semibold text-blue-600"><strong>{ shortUrl }</strong></a>
                         <button 
                         className="bg-green-500 h-8 w-8 flex justify-center items-center rounded-md"
                         onClick={ copyLink }
