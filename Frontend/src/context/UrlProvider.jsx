@@ -50,6 +50,18 @@ export const UrlProvider = ({ children })=>{
         fetchUrls();
     },[page, limit, debounceSearch])
 
+    useEffect(()=>{
+        const onFocus = ()=>{
+            fetchUrls();
+        }
+
+        window.addEventListener('focus', onFocus);
+
+        return()=>{
+            window.removeEventListener('focus', onFocus);
+        }
+    }, [page, debounceSearch])
+
     const guardarUrl = async(url)=>{
         try {
             const token = localStorage.getItem('token');
