@@ -202,13 +202,38 @@ const createPublicUrl = async (req, res)=>{
     }
 }
 
+const redirect = async (req, res)=>{
+    const { shortUrlId } = req.params; 
+
+    try{
+        const url = await Url.findOneAndUpdate(
+        {$or: [{customUrl: shortUrlId}, {shortUrlId}]},
+        {$inc: {clicks: 1}},
+        {new: true}
+        )
+
+        if(!url){
+            return res.status(404).json({msg: 'No existe url disponible'});
+        }
+
+        if (url.expiresAt && url.expiresAt < Date.now()) {
+            return res.status(410).json({ msg: 'Este enlace ha expirado' });
+        }
+
+        return res.redirect(url.urlDestino);
+
+    }catch(error){
+        console.log(error);
+        res.status(400).json({msg: 'Error al redirigir la url'});
+    } 
+}
+
 export {
     agregarUrl,
     obtenerUrl,
     actualizarUrl,
     eliminarUrl,
-    incrementarClicks,
-    shortenUrlPublic,
-    redirectPublic,
-    pagination
+    pagination,
+    createPublicUrl, 
+    redirect
 }
