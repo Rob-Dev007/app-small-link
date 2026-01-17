@@ -1,7 +1,7 @@
 import  { FaTrashAlt, FaCog, FaClipboard } from 'react-icons/fa';
 import  { HiBarsArrowUp } from 'react-icons/hi2';
 import useUrl from '../hooks/useUrl';
-import Swal from 'sweetalert2';
+import { confirmDelete, showAlert } from '../helpers/toast';
 
 const Urls = ({ url, mostrarFormEditar })=>{
 
@@ -17,25 +17,19 @@ const Urls = ({ url, mostrarFormEditar })=>{
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     const redirectUrl = `${BACKEND_URL}/${customUrl || shortUrlId}`;
-
-    const showAlert = ()=>{
-         Swal.fire({
-                    title : '¡Aviso!',
-                    text : 'Texto copiado correctamente.',
-                    icon : 'success',
-                    confirmButtonText : 'Aceptar',
-                    customClass :{
-                        popup: 'custom-popup',
-                        title: 'custom-title',
-                        confirmButton: 'custom-confirm-button'
-                    }
-                });
+    
+    const copyAlert = ()=>{
+        showAlert({
+            title: '¡Aviso!',
+            text : 'Url copiada correctamente',
+            icon : 'success',
+        })
     }
-
+    
     const handleCopy = ()=>{
         navigator.clipboard
         .writeText(redirectUrl)
-        .then(()=> showAlert())
+        .then(()=> copyAlert())
         .catch((error) => console.log('Error al copiar el enlace', error))
     }
 
@@ -44,23 +38,18 @@ const Urls = ({ url, mostrarFormEditar })=>{
     }
 
     const handleDelete = (id)=>{
-        Swal.fire({
+        confirmDelete({
             title: "¿Desea eliminar este elemento?",
-            text: "Esta acción no se puede deshacer.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar",
+            text: "Esta acción no se puede deshacer",
+            icon: "warning"
         }).then((result) => {
             if (result.isConfirmed) {
                 eliminarUrl(id);
-                Swal.fire(
-                    "Eliminado",
-                    "La URL ha sido eliminada correctamente.",
-                    "success"
-                );
+                showAlert({
+                    title: "Operación exitosa",
+                    text: "La URL ha sido eliminada correctamente",
+                    icon: "success"
+                })
             }
         });
     }
