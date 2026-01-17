@@ -9,6 +9,8 @@ import Input from '../utils/input';
 import UseTheme from '../hooks/UseTheme';
 import useUrl from '../hooks/useUrl';
 import Pagination from "../components/pagination";
+import checkUrl from '../helpers/checkUrl';
+import { toast } from '../helpers/toast';
 
 const Dashboard = ()=>{
 
@@ -21,9 +23,9 @@ const Dashboard = ()=>{
 
     const [ id, setId ] = useState(null);
     const [ alerta, setAlerta ] = useState({});
-    const { theme } = UseTheme();
 
     const { guardarUrl, urlRecortada, editarUrl, search, setSearch, fetchUrls } = useUrl();
+    const { theme } = UseTheme();
     const { urlDestino, customUrl, descripcion } = formData; 
 
     useEffect(()=>{
@@ -45,34 +47,42 @@ const Dashboard = ()=>{
             return;
         };
 
+        if (!checkUrl(urlDestino)) {
+            setAlerta({
+                msg: 'Url no válido',
+                error: true
+            });
+            return;
+        }
+
         const datos = { urlDestino, customUrl, descripcion };
       
         if (id) {
           // Si hay un id, significa que estamos editando
           try {
             await editarUrl(id, datos); // Llama a la función para editar la URL
-            setAlerta({ 
-                msg: 'URL editada correctamente', 
-                error: false 
-            });
+            toast({
+                icon:'success', 
+                title:'Url editado exitosamente'
+            })
           } catch (error) {
-            setAlerta({ 
-                msg: 'Hubo un error al editar la URL', 
-                error: true 
-            });
+            toast({
+                icon:'error', 
+                title:'Url no fue editado correctamente'
+            })
           }
         } else {
             try {
                 // Si no hay id, significa que estamos creando
                 await guardarUrl(datos);
-                setAlerta({
-                    msg: 'Url creada correctamente',
-                    error: false
+                toast({
+                    icon:'success', 
+                    title:'Url creado exitosamente'
                 })
             } catch (error) {
-                setAlerta({
-                    msg: 'Error al crear la Url',
-                    error: true
+                toast({
+                    icon:'error', 
+                    title:'Url no fue creado correctamente'
                 })
             }    
         }
@@ -101,6 +111,16 @@ const Dashboard = ()=>{
         setMostrarForm(true); 
     };
 
+    const mostrarFormCrear = ()=>{
+        setId(null);
+        setFormData({
+            urlDestino: '',
+            customUrl: '',
+            descripcion: ''
+        });
+        setAlerta({});
+        setMostrarForm(true);
+    }
     const searchLink = (e)=>{
         setSearch(e.target.value);
     }
@@ -115,13 +135,12 @@ const Dashboard = ()=>{
         if(value.trim() !== ''){
             setAlerta({});
         }
-
     }
 
     const { msg } = alerta;
 
     return(
-        <div className='min-h-screen'>
+        <div className='min-h-screen overflow-x-hidden'>
             <div className='flex justify-between items-center mx-2'>
                 <div className="input-container">
                     <input 
@@ -136,7 +155,7 @@ const Dashboard = ()=>{
                 <div>
                     <button 
                     className="px-3 py-2 md:px-4 md:py-2 border-2 font-bold rounded-xl text-sm md:text-base hover:bg-cyan-600 hover:text-white transition-all duration-300"
-                    onClick={ ()=> setMostrarForm(true) }
+                    onClick={mostrarFormCrear}
                     >
                         Crear link
                     </button>
@@ -162,17 +181,16 @@ const Dashboard = ()=>{
                                 <h2 className='text-2xl font-bold'>Sin enlaces por el momento</h2>
                                 <button
                                     className='border-4 p-2 rounded-xl uppercase font-bold hover:bg-cyan-600 hover:text-white transition-all duration-500 transform ease-out font-bold my-2'
-                                    onClick={() => setMostrarForm(true)}
+                                    onClick={mostrarFormCrear}
                                 >
                                      Crear link
                                 </button>
                             </div>
-                        )
-                        
+                        )    
                     }
             </div>
             {mostrarForm && 
-            <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex justify-center items-center">
+            <div className="fixed overflow-y-auto inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex justify-center items-center">
                     <form 
                         className={`${mostrarForm ? 'block' : 'hidden'} 
                         ${theme === 'dark' ? 'bg-stone-800' : 'bg-white'} 
