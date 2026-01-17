@@ -76,11 +76,7 @@ export const UrlProvider = ({ children })=>{
 
 
                 setUrlRecortada((prevUrls) => [urlAlmacenado, ...prevUrls]);
-            
-            setAlerta({
-                msg: "Url recortada con exito",
-                error: false
-            })
+
         } catch (error) {
             console.log(error);
         }
@@ -101,11 +97,6 @@ export const UrlProvider = ({ children })=>{
             setUrlRecortada((prevUrls) =>
                 prevUrls.map((url) => (url._id === id ? { ...url, ...data } : url))
             );
-
-            setAlerta({
-                msg: 'Url actualizada correctamente',
-                error: false
-            })
 
         }catch(error){
             console.log(error)
