@@ -15,14 +15,16 @@
   "author": "Roberto Antonio Paredes Camacho",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.13.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
+    "mailtrap": "^4.4.0",
     "mongoose": "^8.6.4",
     "nanoid": "^5.1.6",
-    "nodemailer": "^6.9.15",
+    "nodemailer": "^7.0.12",
     "nodemon": "^3.1.7"
   },
   "devDependencies": {
