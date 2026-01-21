@@ -114,7 +114,7 @@ const olvidePassword = async(req, res)=>{
             token : correoExistente.token
         })
         
-        res.json({ msg: 'Se ha enviado un correo con las intrucciones para recuperar tu cuenta' });
+        res.json({ msg: 'Se ha enviado un correo con las instrucciones para recuperar tu cuenta' });
     }catch(error){
         console.log(error);
     }
