@@ -11,7 +11,13 @@ const CheckAuth = async(req, res, next) =>{
             console.log(token);
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            req.user = await User.findById(decoded.id).select("-password -token -confirmado");
+            const user = await User.findById(decoded.id).select("-password -token -confirmado");
+
+            if(!user){
+                return res.status(401).json({ msg: 'Usuario no válido' });
+            }
+
+            req.user = user; 
             return next();
         }catch(error){
             const e = new Error('Token no identificado');
