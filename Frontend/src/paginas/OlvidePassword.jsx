@@ -16,9 +16,9 @@ const OlvidePassword = ()=>{
     const handleSubmit = async e=>{
         e.preventDefault();
 
-        if(correo === '' || correo.length < 6){
+        if(!correo.trim() || !correo.includes('@') || !correo.includes('.')){
             setAlerta({
-                msg: 'Campo vacio, email obligatorio',
+                msg: 'Ingrese un correo válido',
                 error: true
             });
             return;
@@ -34,14 +34,19 @@ const OlvidePassword = ()=>{
 
         }catch(error){
             setAlerta({
-                msg: error.response.data.msg,
+                msg: error.response?.data?.msg || 'Error del servidor, intente nuevamente',
                 error: true
             });
         };
     }
 
-    const changeEvent = ()=>{
-        setCorreo(e.target.value);
+    const changeEvent = (e)=>{
+        const value = e.target.value;
+        setCorreo(value);
+
+        if(value.trim() !== ''){
+        setAlerta({});
+    }
     }
 
     const { msg } = alerta;
