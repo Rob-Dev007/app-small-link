@@ -103,12 +103,13 @@ const Home = ()=>{
     return(
         <div className="flex flex-col items-center justify-center vh-100 mt-12 mx-auto ">
             <div className="flex-1 mx-1">
-                <h1 className="text-3xl lg:text-5xl font-semibold text-center mb-4 bg-gradient-to-r from-indigo-400 via-blue-500 to-cyan-600 bg-clip-text text-transparent">
-                    Acortador de Enlaces
+                <h1 className="text-3xl lg:text-5xl bold text-center mb-4 bg-gradient-to-r from-indigo-400 via-blue-500 to-cyan-600 bg-clip-text text-transparent">
+                    Small-link <span className="font-semibold">acortador de enlaces</span>
                 </h1>
-                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center mx-4 my-8 sm:my-16">
-                    App web diseñada para acortar enlaces, regístrate y podrás almacenar y administrar tus enlaces
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-center mx-4 my-8 sm:my-12">
+                    Aplicación web diseñada para acortar enlaces, regístrate para almacenar y administrar tus enlaces
                 </h2>
+                <h3 className="text-xl text-center font-bold">Es seguro y facil de usarlo</h3>
                 <div className="grid grid-cols-2 lg:grid-rows-1 lg:grid-cols-4 justify-items-center gap-6 mt-10 text-lg lg:text-xl text-gray-400 w-full">
                     <span>🔒 Sin spam</span>
                     <span>⚡ Rápido</span>
@@ -122,9 +123,12 @@ const Home = ()=>{
                     <Step title="3. Compártelo" icon={FaShareAlt} />
                 </div>
             </div>
-            <div className="md:max-w-[440px] lg:max-w-[620px] w-full mt-5">
+            <div className="md:max-w-[440px] lg:max-w-[620px] w-full mt-3">
+                <p className="text-sm text-gray-500 text-center mb-3">
+                    Pega cualquier enlace y acortalo en segundos
+                </p>
                 <form onSubmit={ handleSubmit }>
-                    <Input type={ "url" } value={ urlDestino } changeEvent={ changeEvent } placeholder={ "Recorta la url" }/>
+                    <Input type={ "url" } value={ urlDestino } changeEvent={ changeEvent } placeholder= "Ej: https://www.youtube.com/watch?v=..." />
                     <div className="flex justify-end mt-3 md:mt-2 mx-2 gap-8">
                         <Button 
                         disabled={loading} 
@@ -135,7 +139,7 @@ const Home = ()=>{
                                 Procesando...
                             </>
 
-                        )  :  ( 'Recorta el url') }
+                        )  :  ( 'Acorta el url') }
                         </Button>
                     </div>
                 </form>
@@ -196,10 +200,10 @@ const Home = ()=>{
            
             <div className="text-center my-8">
                 <h3 className="text-2xl text-cyan-500 font-bold mb-4">
-                    Empieza gratis hoy mismo
+                    Empieza gratis hoy mismo, lleva el control total de tus enlaces
                 </h3>
                 <p className="text-gray-500 mb-6">
-                    Regístrate y gestiona todos tus enlaces desde un solo lugar
+                    Regístrate y gestiona todos tus enlaces desde un solo panel
                 </p>
                 <Link to="/registrar" className="btn">
                     Crear cuenta gratis
