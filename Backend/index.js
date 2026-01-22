@@ -7,15 +7,16 @@ import urlRoutes from './server/routes/urlRoutes.js';
 import publicRoutes from './server/routes/publicRoutes.js';
 import { redirect } from './controllers/urlController.js';
 
+dotenv.config();
+
 const app = express();
 
 app.use(express.json());
-dotenv.config();
 
 //Conectar base de datos
 connectDB();
 
-const dominiosPermitidos = [process.env.URL_BACKEND , process.env.URL_FRONTEND];
+const dominiosPermitidos = [process.env.URL_FRONTEND];
 
 const corsOptions = {
     origin: function(origin, callback){
@@ -26,7 +27,7 @@ const corsOptions = {
             callback(new Error('No permitido por CORS'));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
@@ -44,3 +45,6 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () =>{
     console.log(`Conección exitosa en el puerto ${PORT}`)
 });
+
+//Para preflights
+app.options('*', cors());
