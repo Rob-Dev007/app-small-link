@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { FaDatabase, FaLink } from "react-icons/fa";
 import { useState } from "react";
 import { FaClipboard, FaPaste, FaMagic, FaShareAlt } from "react-icons/fa";
-import Swal from "sweetalert2";
 import Alerta from "../helpers/Alerta"
 import clienteAxios from "../config/axios";
 import Input from "../utils/input";
@@ -13,6 +12,7 @@ import CardService from "../utils/cardService";
 import Stats from "../components/stats";
 import ReviewsSlider from "../components/reviews";
 import checkUrl from "../helpers/checkUrl";
+import { showAlert } from "../helpers/toast";
 
 const Home = ()=>{
 
@@ -36,9 +36,10 @@ const Home = ()=>{
 
         if(!checkUrl(urlDestino)){
             setAlerta({
-                msg: data.msg,
+                msg: 'La url no es válida',
                 error: true
                 })
+                return; 
             }
 
         setAlerta({});
@@ -69,23 +70,13 @@ const Home = ()=>{
 
     const redirectUrl = `${BACKEND_URL}/${shortUrl}`;
 
-    const showAlerta = ()=>{
-        Swal.fire({
-            title : '¡Aviso!',
-            text : 'Texto copiado correctamente.',
-            icon : 'success',
-            confirmButtonText : 'Aceptar',
-            customClass :{
-                popup: 'custom-popup',
-                title: 'custom-title',
-                confirmButton: 'custom-confirm-button'
-            }
-        });
-    };
-
     const copyLink = ()=>{
-        navigator.clipboard.writeText(shortUrl)
-        .then(()=> showAlerta())
+        navigator.clipboard.writeText(redirectUrl)
+        .then(()=> showAlert({
+        icon: 'success',
+        title: 'Enlace copiado correctamente',
+        text: 'Enlace copiado al portapapeles con éxito'
+        }))
         .catch((error) => console.log('Error al copiar el enlace', error))
     }
 
@@ -96,12 +87,13 @@ const Home = ()=>{
         setUrlDestino(value);
 
         if(value.trim() !== ''){
-            setAlerta({})
+            setAlerta({});
+            return;
         }
     }
 
     return(
-        <div className="flex flex-col items-center justify-center vh-100 mt-12 mx-auto ">
+        <div className="flex flex-col items-center justify-center min-h-screen mt-12 mx-auto ">
             <div className="flex-1 mx-1">
                 <h1 className="text-3xl lg:text-5xl bold text-center mb-4 bg-gradient-to-r from-indigo-400 via-blue-500 to-cyan-600 bg-clip-text text-transparent">
                     Small-link <span className="font-semibold">acortador de enlaces</span>
