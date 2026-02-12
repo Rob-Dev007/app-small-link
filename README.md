@@ -24,8 +24,9 @@ Está pensado como base para soluciones de:
 
 🌐 Demo
 
-🔴 Demo en vivo: ([agrega aquí tu link de Vercel / Render](https://small-link-app.vercel.app/))
-🛠 API Backend: ([agrega aquí tu link del backend si está público](https://small-link-app-backend.onrender.com))
+🔴 Demo en vivo: ([https://small-link-app.vercel.app/])
+
+🛠 API Backend: ([https://small-link-app-backend.onrender.com])
 
 ---
 
@@ -72,6 +73,7 @@ Manejo de variables sensibles mediante archivos .env
 ---
 
 🛠️ Stack Tecnológico
+
 🎨 Frontend
 
 ⚛️ React
@@ -139,16 +141,26 @@ Esta estructura permite escalar el sistema y mantener separadas las responsabili
 ---
 
 📦 Instalación y Ejecución
+
 1️⃣ Clonar repositorio
+
 git clone https://github.com/Rob-Dev0695/AppWebUrlShortener.git
+
 2️⃣ Backend
-cd backend
-npm install
-npm run dev
+
+-cd Backend
+
+-npm install
+
+-npm run start
+
 3️⃣ Frontend
-cd frontend
-npm install
-npm run dev
+
+-cd Frontend
+
+-npm install
+
+-npm run dev
 
 Luego abre:
 
@@ -192,22 +204,24 @@ Separación clara de responsabilidades (arquitectura limpia)
 
 Las contribuciones son bienvenidas:
 
-Haz un fork del proyecto
+-Haz un fork del proyecto
 
-Crea una rama (feature/nueva-funcionalidad)
+-Crea una rama (feature/nueva-funcionalidad)
 
-Haz commit (feat: agrega nueva funcionalidad)
+-Haz commit (feat: agrega nueva funcionalidad)
 
-Haz push a tu rama
+-Haz push a tu rama
 
-Abre un Pull Request
+-Abre un Pull Request
 
 ---
 
 👨‍💻 Autor
 
 Roberto Antonio Paredes Camacho
+
 💻 Full-Stack Web Developer
+
 📩 robdev0695@gmail.com
 
 🔗 GitHub: https://github.com/Rob-Dev007
@@ -226,5 +240,6 @@ Este proyecto está bajo la Licencia MIT.
 
 Para realizar la prueba de inicio de sesión, comparto las credenciales
 
-Usuario: customuser@correo.com
-contraseña: prueba123
+[x]Usuario: customuser@correo.com
+
+[x]contraseña: prueba123
